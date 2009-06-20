@@ -1,0 +1,24 @@
+#!/usr/local/bin/php
+<?php
+namespace Smoothie;
+require_once 'Smoothie.php';
+
+function scan_for_tests($file)
+{
+	$file = preg_replace("/\/$/","",$file);
+
+	if (is_file($file))
+	{
+		require_once($file);
+		return;
+	}
+
+	foreach (glob("$file/*Test.php") as $f)
+		scan($f);
+};
+
+register_shutdown_function(array(Smoothie::instance(),'display_fail_report'));
+
+for ($i=1,$n=count($argv); $i<$n; ++$i)
+	scan_for_tests($argv[$i]);
+?>
