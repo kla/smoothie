@@ -49,7 +49,7 @@ Smoothie is a testing library for PHP 5.3+. It's based on Shoulda and TestUnit f
 
 Take a look in the tests directory for more examples.
 
-# Running a Smoothie Test #
+## Running a Smoothie Test ##
 
 Use the smoothie command line script to run a smoothie test file:
 
