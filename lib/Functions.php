@@ -46,6 +46,18 @@ function assert_equals($expected, $actual)
 	if ($expected != $actual) Smoothie::instance()->report_failure("<$expected> expected but was\n  <$actual>");
 }
 
+function assert_identical($expected, $actual)
+{
+	assertion();
+	if ($expected !== $actual) Smoothie::instance()->report_failure("<$expected> expected but was\n  <$actual>");
+}
+
+function assert_instance_of($expected, $object)
+{
+	assertion();
+	if (!($object instanceof $expected)) Smoothie::instance()->report_failure("<$expected> expected but was\n  <" . get_class($actual) . ">");
+}
+
 function assert_true($actual)
 {
 	assertion();
