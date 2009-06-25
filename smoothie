@@ -14,7 +14,7 @@ function scan_for_tests($file)
 	}
 
 	foreach (glob("$file/*Test.php") as $f)
-		scan($f);
+		scan_for_tests($f);
 };
 
 register_shutdown_function(array(Smoothie::instance(),'display_fail_report'));

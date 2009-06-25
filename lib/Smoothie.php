@@ -9,9 +9,10 @@ class Smoothie
 	public $tests = 0;
 	public $transient;
 	public $filter;
-	
+
 	private $contexts = array();
 	private $failures = array();
+	private $deferences = array();
 	private $errors = 0;
 	private $failure;
 	private $success;
@@ -50,6 +51,14 @@ class Smoothie
 	public function display_fail_report()
 	{
 		echo "\n\n";
+
+		if (!empty($this->deferences))
+		{
+			foreach ($this->deferences as $deference)
+				echo ' * DEFERRED: ' .$deference. "\n";
+
+			echo "\n";
+		}
 
 		if (!empty($this->failures))
 		{
@@ -122,6 +131,15 @@ class Smoothie
 		$this->assertions++;
 	}
 
+	/**
+	 *
+	 * @return void
+	 */
+	public function report_deference($defer_string)
+	{
+		$this->deferences[] = $this->context_description() .' should eventually '. $defer_string;
+	}
+
 	public function report_error()
 	{
 		echo "E";
@@ -143,16 +161,25 @@ class Smoothie
 	}
 
 	/**
-	 * Returns description for the current test.
+	 * Returns a description of contexts
+	 * @return str
 	 */
-	public function test_description()
+	public function context_description()
 	{
-		$context_description = "";
+		$context_description = '';
 
 		foreach ($this->contexts as $context)
 			$context_description .= $context->description . ' ';
 
-		return rtrim($context_description) . " should $this->current_description";
+		return rtrim($context_description);
+	}
+
+	/**
+	 * Returns description for the current test.
+	 */
+	public function test_description()
+	{
+		return $this->context_description() . " should $this->current_description";
 	}
 
 	/**
@@ -185,10 +212,10 @@ class Smoothie
 
 /**
  * The context class allows you to group together a set of closely related tests.
- * 
+ *
  * Each test (or should block) in the context will cause $setup to fire prior
  * and $teardown after the test has been run.
- * 
+ *
  * Contexts can be nested and setups/teardowns of the parent contexts will also run.
  */
 class Context

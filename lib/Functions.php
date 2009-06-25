@@ -33,6 +33,7 @@ function should($description, Closure $closure)
 
 function should_eventually($description)
 {
+	Smoothie::instance()->report_deference($description);
 }
 
 function assertion()
